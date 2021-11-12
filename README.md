@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Robot Toolkit para Pepper
 
 Documentación en https://gitlab.com/sinfonia-sspl-robocup-2020/sinfonia-robot-toolkit/robot_toolkit/-/wikis/home
@@ -23,3 +24,7 @@ Usando el bash `robot_toolkit.sh`  usted podra:
 5. Detener el robot_toolkit en el robot
 
 Para mayor informacion ejecute `./robot_toolkit.sh --help`
+=======
+# sinfonia_toolkit
+ROS package to manage and communicate with the hardware components of the Pepper robot
+>>>>>>> 47f5e8a907ae6390e7dd377a1fabd77d18ab027c
