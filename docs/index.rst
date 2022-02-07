@@ -1,5 +1,5 @@
 .. SinfonIA Toolkit documentation master file, created by
-   sphinx-quickstart on Wed Jan 26 11:50:55 2022.
+   sphinx-quickstart on Mon Feb  7 14:36:02 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -7,6 +7,7 @@ Welcome to SinfonIA Toolkit's documentation!
 ============================================
 
 .. toctree::
+   gettingstarted.md
    :maxdepth: 2
    :caption: Contents:
 
