@@ -1,0 +1,75 @@
+External Sources.
+=======
+
+As per usual in this kind of project, SinfonIA Toolkit is built over external frameworks, languages and tools.
+Therefore, it is important to know such tools at least at a basic level to be able to understand a few of our 
+design decisions on this project. As a way to aid such comprehension, here is a compilation of external resources
+used during the development of this project.
+
+```{admonition} Keep in mind!
+Even though this list tries to cover as much ground as possible, truth be told, it might not present a complete 
+picture on the functioning of such tools, it will most probably be updated over time to reflect the best version of 
+such a list we can make.
+```
+
+
+(section-two)=
+## C++
+
+First of all, this piece of software is written in the C++ programming language. And as such, is subject to the rules
+and conventions that make up its syntax. C++ is a very well established language in the realm of computer science, and
+as such, is very well documented under official and non-official sources. 
+
+One of the first places where C++ should be consulted is in the C++ Core Guidelines, proposed and led in philosophy by 
+Bjarne Stroustrup, lead creator of the C++ language, it is about as close to an official C++ Guide as it gets.
+
+[Read the C++ Core Guidelines Here.](https://isocpp.github.io/CppCoreGuidelines/)
+
+Other unofficial, but useful resources include:
+
+[GeeksforGeeks C++ Reference manual](https://www.geeksforgeeks.org/c-plus-plus/)
+[Microsoft C++ Language Reference](https://docs.microsoft.com/en-us/cpp/cpp/welcome-back-to-cpp-modern-cpp?view=msvc-170)
+[UNAM C++ Programming Guide (Spanish)](https://paginas.matem.unam.mx/pderbf/images/mprogintc++.pdf)
+
+(section-three)=
+## ROS
+
+```{warning}
+
+Even though ROS has plenty of versions, a lot of the code is version sensitive and as such, using a different version to the
+one currently standardized might cause compatibility issues, as of 2022, the current version is **ROS 20.04 - Noetic Ninjemys**, 
+Specifically, the package developed for Ubuntu and Ubuntu-based Linux distros, **the use of this version is highly reccomended, if not even required** 
+```
+
+On a higher level than C++, we use the ROS framework, designed for the development and programming of robotics. 
+This is an open source framework that informs a lot of the design decisions on how tools communicate with each other. 
+ROS is widely documented on an official manner, given that, we believe that most of the really important concepts can be found there.
+
+[Read the official ROS documentation here.](https://wiki.ros.org/)
+
+
+Other documentation that might be of note includes:
+[Stanford's 'ROS: an open-source Robot Operating System'](http://www.robotics.stanford.edu/~ang/papers/icraoss09-ROS.pdf)
+[ROS Robotics by example, Second Edition.](https://github.com/packtpublishing/ros-robotics-by-example-second-edition)
+
+(section-four)=
+## Ubuntu
+
+SinfonIA Toolkit is designed to run over Linux, and as mentioned beforehand, an Ubuntu 20.04 install is preferred, this is a relatively widespread distribution
+of a Linux-based system, and therefore, one of the best documented ones, however, a deep understanding of the OS is not required to work on this tool and it can
+be run either from Bare Metal or through a virtual machine. This OS is completely free, open source and doesn't require any sort of activation.
+
+[Access Ubuntu's official website here](https://ubuntu.com/)
+
+Some links that might be of use include:
+
+[Ubuntu 20.04 download link](https://ubuntu.com/download/desktop/thank-you?version=20.04.3&architecture=amd64)
+[How to use VirtualBox: Quick Overview](https://www.nakivo.com/blog/use-virtualbox-quick-overview/)
+
+(section-four)=
+## ReadtheDocs
+
+Last but not least, this documentation is written on ReadtheDocs' tools for documentation, and hosted on their servers, for further expansion of this
+guide, we recommend reading their official documentation on the subject.
+
+[Such documentation can be found here](https://docs.readthedocs.io/en/stable/tutorial/)
