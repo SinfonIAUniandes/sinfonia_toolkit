@@ -28,7 +28,9 @@ Bjarne Stroustrup, lead creator of the C++ language, it is about as close to an 
 Other unofficial, but useful resources include:
 
 [GeeksforGeeks C++ Reference manual](https://www.geeksforgeeks.org/c-plus-plus/)
+
 [Microsoft C++ Language Reference](https://docs.microsoft.com/en-us/cpp/cpp/welcome-back-to-cpp-modern-cpp?view=msvc-170)
+
 [UNAM C++ Programming Guide (Spanish)](https://paginas.matem.unam.mx/pderbf/images/mprogintc++.pdf)
 
 (section-three)=
@@ -49,7 +51,9 @@ ROS is widely documented on an official manner, given that, we believe that most
 
 
 Other documentation that might be of note includes:
+
 [Stanford's 'ROS: an open-source Robot Operating System'](http://www.robotics.stanford.edu/~ang/papers/icraoss09-ROS.pdf)
+
 [ROS Robotics by example, Second Edition.](https://github.com/packtpublishing/ros-robotics-by-example-second-edition)
 
 (section-four)=
@@ -64,6 +68,7 @@ be run either from Bare Metal or through a virtual machine. This OS is completel
 Some links that might be of use include:
 
 [Ubuntu 20.04 download link](https://ubuntu.com/download/desktop/thank-you?version=20.04.3&architecture=amd64)
+
 [How to use VirtualBox: Quick Overview](https://www.nakivo.com/blog/use-virtualbox-quick-overview/)
 
 (section-four)=
