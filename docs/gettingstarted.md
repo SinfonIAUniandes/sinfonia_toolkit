@@ -1,6 +1,52 @@
-Welcome to SinfonIA Uniandes's Toolkit Documentation.
+Getting Started in Toolkit.
 =======
 
+(section-two)=
+## General Information
 
-# Getting Started in Toolkit. #
+Welcome to the SinfonIA Toolkit documentation page. This project is a low-level ROS library
+Developed and mantained by the SinfonIA Uniandes team. Its main purpouse is the connection and
+management for the code of the different subsystems that compone this project (For example, Vision or 
+Motion Control, this same webpage includes an extensive list of the tools involved in this project, 
+please refer to the index for an extensive list on the matter.). This guide will cover the technical,
+structural, and algorithmic nuances of this project, however, some prior knowledge on the structures are
+reccomended (please refer to 'External Sources' for further information and documentation on such).
 
+(section-three)=
+## Project Prerequisites.
+
+As explained before, it is highly reccomended to have at least a base level understanding of the
+tools used in the elaboration of this library before proceeding. Most documentation for that can be 
+found in 'External Resources'.
+
+That being said, the adquirement of those tools before hand is also important, and as such, before
+trying to modify the code in this repository, a few tools should be installed, with the most important being:
+
+1. a Ubuntu 20.04 (or based upon) Linux installation. (it can be either Bare Metal or through Virtualization)
+2. ROS 20.04 Melodic or compatible
+3. a C/C++ Compiler (Most of the reccomended Linux installations should already have GCC installed, so you can probably not worry about this one, unless you're
+   installing Gentoo, Arch or some other unorthodox Linux distro.)
+4. If you're to push the code onto the repo (Which you're probably thinking on doing, if you're to work on this) you should have Git installed. A
+   Git client such as Github Desktop or GitKraken is recommended.
+5. An IDE, such as Visual Studio Code or CLion
+
+It should be fairly easy to compile all of this, as none of it is strictly proprietary and all of it is free, once that's dealt with, we can
+start properly working.
+
+(section-four)=
+## Project Structure
+
+This project is, in essence, a ROS Library, which follows and is dictated by ROS's design conventions. The main thing to note are the fact that this project
+**MUST** be run along with ROS, otherwise it will lack a lot of dependencies that it needs. Since stuff such as the Topics structure and the Publisher/Subscriber
+format used are defined on those external libraries. Furthermore on that structure, our project's 'src' and 'include' folders are structured in a way that the code of a specific
+topic is all contained on the same subfolder, a fact that should be considered when navigating this project.
+
+Another thing that should be noted on these two folders, is that the variable declaration in 'include' is also applied for 'src', the management of such variables are a common source of confusion, so you should have that in mind
+
+
+(section-five)=
+## Project Compilation.
+
+### Catkin
+
+### rostopic and rosmake
