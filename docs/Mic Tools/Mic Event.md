@@ -44,7 +44,7 @@ Terminates a concurrent process regardin the microphone. This includes liberatin
 
 ## isPublishing
 
-Checks the 
+Checks the publishing status of a specific locked process and updates the '_isPublishing' state accordingly
 
 ## isStarted
 
