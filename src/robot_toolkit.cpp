@@ -913,7 +913,7 @@ namespace Sinfonia
 			}
 		    }
 		    else
-		    {
+		    { // depth camera
 			if(!(request.data.resolution <= Helpers::VisionHelpers::kQVGA || request.data.resolution == Helpers::VisionHelpers::kQQQVGA || request.data.resolution == Helpers::VisionHelpers::kQQQQVGA ))
 			{
 			    responseMessage = "ERROR: Bad resolution configuration for camera: " + request.data.camera_name;
@@ -1014,7 +1014,7 @@ namespace Sinfonia
 	}
 	return -1;
     }
-
+	// TODO CONFIGURAR LA FORMA EN QUE SE SETEAN LOS VALORES PERO TAMBIEN PRINTEAR SOLO LOS NECESARIO 
     robot_toolkit_msgs::camera_parameters_msg RobotToolkit::toCameraParametersMsg(std::vector< float > params)
     {
 	robot_toolkit_msgs::camera_parameters_msg result;
@@ -1041,7 +1041,7 @@ namespace Sinfonia
 	result.compression_factor = params[20];
 	return result;
     }
-
+	// ES ESTO LO QUE IMPRIME TODOS LOS VALORES CONFIGURABLES DE LOS PARAMETROS???
     std::vector< float > RobotToolkit::toVector(robot_toolkit_msgs::camera_parameters_msg params)
     {
 	std::vector<float>  result;
