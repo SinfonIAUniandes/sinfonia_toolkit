@@ -107,12 +107,13 @@ namespace Sinfonia
 	    _pSpeechRecognition.call<void>("subscribe", "ROSDriverAudio"+ _speechKey);
 	    _pMemory.call<void>("subscribeToEvent", _speechKey.c_str(), _speechServiceName, "wordRecognizedCallback");
 
-	    //_soundServiceName = std::string("ROS-Driver") + _soundKey;
-	    //_soundDetectionServiceId = _session->registerService(_soundServiceName, this->shared_from_this());
-	    //_pSoundDetection.call<void>("setParameter", "Sensitivity", 0.3f);
-	    //_pSoundDetection.call<void>("subscribe", "ROSDriverAudio"+ _soundKey);
-	    //_pMemory.call<void>("subscribeToEvent", _soundKey.c_str(), _soundServiceName, "soundDetectionCallback");
-
+		// TODO
+	    _soundServiceName = std::string("ROS-Driver") + _soundKey;
+	    _soundDetectionServiceId = _session->registerService(_soundServiceName, this->shared_from_this());
+	    _pSoundDetection.call<void>("setParameter", "Sensitivity", 0.3f);
+	    _pSoundDetection.call<void>("subscribe", "ROSDriverAudio"+ _soundKey);
+	    _pMemory.call<void>("subscribeToEvent", _soundKey.c_str(), _soundServiceName, "soundDetectionCallback");
+		// TODO
 
 	    std::cout << "Speech recognition Initialized" << std::endl;
 	}
@@ -262,6 +263,6 @@ namespace Sinfonia
     void MicEventRegister::soundDetectionCallback(std::string key, qi::AnyValue value, std::string subscriberIdentifier)
     {
 	std::vector<qi::AnyValue> soundArray =  value.toList<qi::AnyValue>();
-	std::cout << BOLDYELLOW << "[" << ros::Time::now().toSec() << "] SoundDetection callcaback value.size() ->" << soundArray.size() << std::endl;
+	std::cout << BOLDYELLOW << "[" << ros::Time::now().toSec() << "] SoundDetection callback value.size() ->" << soundArray.size() << std::endl;
     }
 }
