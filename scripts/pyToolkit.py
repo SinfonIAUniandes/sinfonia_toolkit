@@ -7,6 +7,8 @@ import rospy
 import argparse
 import sys
 from robot_toolkit_msgs.srv import  show_image_srv
+from std_srvs.srv import Empty
+
 
 class PyToolkit:
 
@@ -14,7 +16,11 @@ class PyToolkit:
         self.show_image_srv = rospy.Service('tablet/show_image', show_image_srv, self.show_image_srv)
         self.show_webpage_srv = rospy.Service('tablet/show_webpage', show_image_srv, self.show_webpage_srv)
         self.show_video_srv = rospy.Service('tablet/show_video', show_image_srv, self.show_video_srv)
+
         self.ts = session.service("ALTabletService")
+        self.autonomous_life_service = self.session.service("ALAutonomousLife")
+
+        self.disable_autonomous_life_srv = rospy.Service('autonomous_life/disable', Empty, self.disable_autonomous_life_srv)
 
     def show_image_srv(self,req):
         url = req.url
@@ -33,6 +39,11 @@ class PyToolkit:
         self.ts.playVideo(url)
         time.sleep(5)
         return None
+    
+    def disable_autonomous_life_srv(self,req):
+        self.autonomous_life_service.setState("disabled")
+        self.stand()
+        print("[INFO]: Autonomous life is off")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
