@@ -73,9 +73,11 @@ class PyToolkit:
         """
         if req.data:
             self.awareness_service.resumeAwareness()
+            self.awareness_service.setEnabled(True)
             print("[INFO]: Awareness is turned on")
         else:
             self.awareness_service.pauseAwareness()
+            self.awareness_service.setEnabled(False)
             print("[INFO]: Awareness is paused")
 
 if __name__ == '__main__':
