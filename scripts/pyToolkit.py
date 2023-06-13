@@ -19,8 +19,10 @@ class PyToolkit:
 
         self.ts = session.service("ALTabletService")
         self.autonomous_life_service = session.service("ALAutonomousLife")
+        self.posture_service = session.service("ALRobotPosture")
 
         self.disable_autonomous_life_srv = rospy.Service('autonomous_life/disable', Empty, self.disable_autonomous_life_srv)
+        
 
     def show_image_srv(self,req):
         url = req.url
