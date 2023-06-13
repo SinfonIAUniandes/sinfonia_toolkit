@@ -7,7 +7,7 @@ import rospy
 import argparse
 import sys
 from robot_toolkit_msgs.srv import  show_image_srv
-from std_srvs.srv import Empty
+from std_srvs.srv import SetBool, Empty
 
 
 class PyToolkit:
@@ -20,9 +20,11 @@ class PyToolkit:
         self.ts = session.service("ALTabletService")
         self.autonomous_life_service = session.service("ALAutonomousLife")
         self.posture_service = session.service("ALRobotPosture")
+        self.awareness_service = session.service("ALBasicAwareness")
 
         self.disable_autonomous_life_srv = rospy.Service('autonomous_life/disable', Empty, self.disable_autonomous_life_srv)
-        
+        self.set_awareness_srv = rospy.Service('awareness', SetBool, self.set_awareness)
+
 
     def show_image_srv(self,req):
         url = req.url
@@ -50,6 +52,21 @@ class PyToolkit:
         self.autonomous_life_service.setState("disabled")
         self.stand()
         print("[INFO]: Autonomous life is off")
+
+    def set_awareness(self, req):
+        """
+        Turn on or off the basic awareness of the robot,
+        e.g. looking for humans, self movements etc.
+
+        :param state: If True set on, if False set off
+        :type state: bool
+        """
+        if req.data:
+            self.awareness_service.resumeAwareness()
+            print("[INFO]: Awareness is turned on")
+        else:
+            self.awareness_service.pauseAwareness()
+            print("[INFO]: Awareness is paused")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
