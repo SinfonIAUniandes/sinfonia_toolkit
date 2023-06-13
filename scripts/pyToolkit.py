@@ -18,7 +18,7 @@ class PyToolkit:
         self.show_video_srv = rospy.Service('tablet/show_video', show_image_srv, self.show_video_srv)
 
         self.ts = session.service("ALTabletService")
-        self.autonomous_life_service = self.session.service("ALAutonomousLife")
+        self.autonomous_life_service = session.service("ALAutonomousLife")
 
         self.disable_autonomous_life_srv = rospy.Service('autonomous_life/disable', Empty, self.disable_autonomous_life_srv)
 
@@ -39,6 +39,10 @@ class PyToolkit:
         self.ts.playVideo(url)
         time.sleep(5)
         return None
+    
+    def stand(self):
+        self.posture_service.goToPosture("Stand", 0.5)
+        print("[INFO]: Robot is in default position")
     
     def disable_autonomous_life_srv(self,req):
         self.autonomous_life_service.setState("disabled")
