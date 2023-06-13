@@ -55,6 +55,7 @@ class PyToolkit:
         return None
     
     def disable_autonomous_life_srv(self,req):
+        self.set_awareness(False)
         self.autonomous_life_service.setState("disabled")
         self.stand()
         print("[INFO]: Autonomous life is off")
