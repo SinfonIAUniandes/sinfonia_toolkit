@@ -74,10 +74,10 @@ class PyToolkit:
     def callback_awareness_set_awareness_srv(self, req):
         print(consoleFormatter.format("\nRequested ALBasicAwareness/set_awareness_srv", "WARNING"))
         if req.data:
-            self.awareness_service.setEnabled(True)
+            self.ALBasicAwareness.setEnabled(True)
             print(consoleFormatter.format('Awareness is on!', 'OKGREEN'))
         else:
-            self.awareness_service.pauseAwareness()
+            self.ALBasicAwareness.pauseAwareness()
             print(consoleFormatter.format('Awareness is off!', 'OKGREEN'))
         return SetBoolResponse(True, "OK")
 
@@ -86,10 +86,10 @@ class PyToolkit:
     def callback_posture_go_to_posture_srv(self, req):
         print(consoleFormatter.format("\nRequested ALRobotPosture/go_to_posture_srv", "WARNING"))
         if req.posture == "stand":
-            self.posture_service.goToPosture("Stand", 0.5)
+            self.ALRobotPosture.goToPosture("Stand", 0.5)
             print(consoleFormatter.format('Robot is in default position!', 'OKGREEN'))
         elif req.posture == "rest":
-            self.posture_service.goToPosture("Crouch", 0.5)
+            self.ALRobotPosture.goToPosture("Crouch", 0.5)
             print(consoleFormatter.format('Robot is in rest position!', 'OKGREEN'))
         return go_to_posture_srvResponse("OK")
 
