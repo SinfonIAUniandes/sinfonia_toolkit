@@ -6,82 +6,126 @@ import time
 import rospy
 import argparse
 import sys
-from robot_toolkit_msgs.srv import  show_image_srv
-from std_srvs.srv import SetBool, Empty
+from robot_toolkit_msgs.srv import tablet_service_srv, go_to_posture_srv, go_to_posture_srvResponse, tablet_service_srvResponse, go_to_posture_srvRequest
+from std_srvs.srv import SetBool, SetBoolResponse, Empty
+import ConsoleFormatter
 
 class PyToolkit:
+    # -----------------------------------------------------------------------------------------------------------------------
+    # -----------------------------------------------------INIT--------------------------------------------------------------
+    # -----------------------------------------------------------------------------------------------------------------------
 
     def __init__(self, session):
-        self.show_srv = rospy.Service('tablet/show_image', show_image_srv, 
-                                      self.show_image_srv)
-        self.hide_tablet_srv = rospy.Service('tablet/hide_tablet', show_image_srv, 
-                                             self.hide_tablet_srv)
-        self.show_webpage_srv = rospy.Service('tablet/show_webpage', show_image_srv, 
-                                              self.show_webpage_srv)
-        self.show_video_srv = rospy.Service('tablet/show_video', show_image_srv, 
-                                            self.show_video_srv)
-        self.autonomous_life_service = session.service("ALAutonomousLife")
-        self.disable_autonomous_life_srv = rospy.Service('autonomous_life/disable', Empty, 
-                                                         self.disable_autonomous_life_srv)
-        self.ts = session.service("ALTabletService")
-        self.posture_service = session.service("ALRobotPosture")
-        self.awareness_service = session.service("ALBasicAwareness")
-
-        self.disable_autonomous_life_srv = rospy.Service('autonomous_life/disable', Empty, self.disable_autonomous_life_srv)
-        self.set_awareness_srv = rospy.Service('awareness', SetBool, self.set_awareness)
+        # Service Naoqi Clients
+        self.ALAutonomousLife = session.service("ALAutonomousLife")
+        self.ALBasicAwareness = session.service("ALBasicAwareness")
+        self.ALRobotPosture = session.service("ALRobotPosture")
+        self.ALTabletService = session.service("ALTabletService")
 
 
-    def show_image_srv(self,req):
-        url = req.url
-        self.ts.showImage(url)
-        time.sleep(5)
-        return None
+        # Service ROS Servers - ALAutonomousLife
+        self.autonomousSetStateServer = rospy.Service('pytoolkit/ALAutonomousLife/set_state_srv', SetBool, self.callback_autonomous_set_state_srv)
+        print(consoleFormatter.format('ALAutonomousLife/set_state_srv on!', 'OKGREEN'))    
 
-    def hide_tablet_srv(self,req):
-        self.ts.hide()
-        time.sleep(5)
-        return None
 
-    def show_webpage_srv(self,req):
-        url = req.url
-        self.ts.showWebview(url)
-        time.sleep(5)
-        return None
+        # Service ROS Servers - ALBasicAwareness
+        self.awarenessSetAwarenessServer = rospy.Service('pytoolkit/ALBasicAwareness/set_awareness_srv', SetBool, self.callback_awareness_set_awareness_srv)
+        print(consoleFormatter.format('Set_awareness_srv on!', 'OKGREEN'))    
 
-    def show_video_srv(self,req):
-        url = req.url
-        self.ts.playVideo(url)
-        time.sleep(5)
-        return None
+        
+        # Service ROS Servers - ALRobotPosture
+        self.postureGoToPostureServer = rospy.Service('pytoolkit/ALRobotPosture/go_to_posture_srv', go_to_posture_srv, self.callback_posture_go_to_posture_srv)
+        
+
+        # Service ROS Servers - ALTabletService
+        self.tabletShowImageServer = rospy.Service('pytoolkit/ALTabletService/show_image_srv', tablet_service_srv, self.callback_tablet_show_image_srv)
+        print(consoleFormatter.format('Show_image_srv on!', 'OKGREEN'))    
+
+        self.tabletShowWebViewServer = rospy.Service('pytoolkit/ALTabletService/show_web_view_srv', tablet_service_srv, self.callback_tablet_show_web_view_srv)
+        print(consoleFormatter.format('Show_web_view_srv on!', 'OKGREEN'))    
+
+        self.tabletPlayVideoServer = rospy.Service('pytoolkit/ALTabletService/play_video_srv', tablet_service_srv, self.callback_tablet_play_video_srv)
+        print(consoleFormatter.format('Play_video_srv on!', 'OKGREEN'))    
+
+        self.tabletHideServer = rospy.Service('pytoolkit/ALTabletService/hide_srv', Empty, self.callback_tablet_hide_srv)
+        print(consoleFormatter.format('Hide_srv on!', 'OKGREEN'))    
+
+
+    # -----------------------------------------------------------------------------------------------------------------------
+    # ----------------------------------------------------SERVICES CALLBACKS-------------------------------------------------
+    # -----------------------------------------------------------------------------------------------------------------------
     
-    def disable_autonomous_life_srv(self,req):
-        self.set_awareness(False)
-        self.autonomous_life_service.setState("disabled")
-        self.stand()
-        print("[INFO]: Autonomous life is off")
-    
-    def stand(self):
-        self.posture_service.goToPosture("Stand", 0.5)
-        print("[INFO]: Robot is in default position")
+    # ----------------------------------------------------ALAutonomousLife------------------------------------------------
 
-    def set_awareness(self, req):
-        """
-        Turn on or off the basic awareness of the robot,
-        e.g. looking for humans, self movements etc.
-
-        :param state: If True set on, if False set off
-        :type state: bool
-        """
+    def callback_autonomous_set_state_srv(self, req):
+        print(consoleFormatter.format("\nRequested ALAutonomousLife/set_state_srv", "WARNING"))
+        self.ALAutonomousLife.setAutonomousAbilityEnabled("All", req.data)
         if req.data:
-            self.awareness_service.resumeAwareness()
+            self.ALAutonomousLife.setState("interactive")
+            print(consoleFormatter.format('Autonomous life is on!', 'OKGREEN'))
+        else:
+            self.ALAutonomousLife.setState("disabled")
+            self.callback_posture_go_to_posture_srv(go_to_posture_srvRequest("stand"))
+            print(consoleFormatter.format('Autonomous life is off!', 'OKGREEN'))
+        return SetBoolResponse(True, "OK")
+
+    # ----------------------------------------------------ALBasicAwareness------------------------------------------------
+
+    def callback_awareness_set_awareness_srv(self, req):
+        print(consoleFormatter.format("\nRequested ALBasicAwareness/set_awareness_srv", "WARNING"))
+        if req.data:
             self.awareness_service.setEnabled(True)
-            print("[INFO]: Awareness is turned on")
+            print(consoleFormatter.format('Awareness is on!', 'OKGREEN'))
         else:
             self.awareness_service.pauseAwareness()
-            self.awareness_service.setEnabled(False)
-            print("[INFO]: Awareness is paused")
+            print(consoleFormatter.format('Awareness is off!', 'OKGREEN'))
+        return SetBoolResponse(True, "OK")
+
+    # ----------------------------------------------------ALRobotPosture------------------------------------------------
+    
+    def callback_posture_go_to_posture_srv(self, req):
+        print(consoleFormatter.format("\nRequested ALRobotPosture/go_to_posture_srv", "WARNING"))
+        if req.posture == "stand":
+            self.posture_service.goToPosture("Stand", 0.5)
+            print(consoleFormatter.format('Robot is in default position!', 'OKGREEN'))
+        elif req.posture == "rest":
+            self.posture_service.goToPosture("Crouch", 0.5)
+            print(consoleFormatter.format('Robot is in rest position!', 'OKGREEN'))
+        return go_to_posture_srvResponse("OK")
+
+    # ----------------------------------------------------ALTabletService------------------------------------------------
+
+
+    def callback_tablet_show_image_srv(self, req):
+        print(consoleFormatter.format("\nRequested ALTabletService/show_image_srv", "WARNING"))
+        self.ALTabletService.showImage(req.url)
+        print(consoleFormatter.format('Image shown!', 'OKGREEN'))
+        return tablet_service_srvResponse("OK")
+    
+
+    def callback_tablet_show_web_view_srv(self, req):
+        print(consoleFormatter.format("\nRequested ALTabletService/show_web_view_srv", "WARNING"))
+        self.ALTabletService.showWebview(req.url)
+        print(consoleFormatter.format('Web view shown!', 'OKGREEN'))
+        return tablet_service_srvResponse("OK")
+    
+
+    def callback_tablet_play_video_srv(self, req):
+        print(consoleFormatter.format("\nRequested ALTabletService/play_video_srv", "WARNING"))
+        self.ALTabletService.playVideo(req.url)
+        print(consoleFormatter.format('Video played!', 'OKGREEN'))
+        return tablet_service_srvResponse("OK")
+    
+
+    def callback_tablet_hide_srv(self, req):
+        print(consoleFormatter.format("\nRequested ALTabletService/hide_srv", "WARNING"))
+        self.ALTabletService.hide()
+        print(consoleFormatter.format('Tablet hidden!', 'OKGREEN'))
+        return
+
 
 if __name__ == '__main__':
+    consoleFormatter=ConsoleFormatter.ConsoleFormatter()
     parser = argparse.ArgumentParser()
     parser.add_argument("--ip", type=str, default="127.0.0.1",
 			help="Robot IP address. On RObot or Local Naoqi: use '127.0.0.1'.")
@@ -98,7 +142,9 @@ if __name__ == '__main__':
     pytoolkit = PyToolkit(session)
     rospy.init_node('pytoolkit')
     try:
-        print(" --- pytoolkit successfully initialized ---")
+        print(consoleFormatter.format(" \n----------------------------------------------------------", "OKGREEN"))  
+        print(consoleFormatter.format(" --------- PyToolkit node successfully initialized --------- ", "OKGREEN"))
+        print(consoleFormatter.format(" ----------------------------------------------------------\n", "OKGREEN")) 
         rospy.spin()
 
     except rospy.ROSInterruptException:
